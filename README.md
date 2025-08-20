@@ -75,4 +75,4 @@ The list is extended using `Append()` or `Prepend`(), which insert a node resp. 
 Finally there are some trivial helpers:
 
 - `VisitByNext()` or `VisitByPrev()` "walk" the list and invoke a callback.
-- `Head()` and `Tail()` return the first, cq. last node in a chain.
+- `Head()` and `Tail()` return the first, cq. last node in a chain. These iterate from the indicated node, so that they run on O(N) time.
