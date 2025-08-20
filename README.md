@@ -8,56 +8,56 @@ Package `lnode` provides generics for nodes in a doubly linked list.
 package main
 
 import (
-	"fmt"
+    "fmt"
 
-	"github.com/KarelKubat/lnode"
+    "github.com/KarelKubat/lnode"
 )
 
 func main() {
-	var root *lnode.Node[string]
+    var root *lnode.Node[string]
 
-	// Initialize a linked list.
-	for _, s := range []string{"the", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"} {
-		n := lnode.New[string](s)
-		if root == nil {
-			root = n
-		} else {
-			root.Tail().Append(n)
-		}
-	}
+    // Initialize a linked list.
+    for _, s := range []string{"the", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"} {
+        n := lnode.New[string](s)
+        if root == nil {
+            root = n
+        } else {
+            root.Tail().Append(n)
+        }
+    }
 
-	// Visit all nodes, starting at the root.
-	fmt.Println("Nodes in order:")
-	root.VisitByNext(func(node *lnode.Node[string]) bool {
-		fmt.Print(node.Value, " ") // Output contained value.
-		return true                // Continue visiting next nodes.
-	})
-	fmt.Println()
+    // Visit all nodes, starting at the root.
+    fmt.Println("Nodes in order:")
+    root.VisitByNext(func(node *lnode.Node[string]) bool {
+        fmt.Print(node.Value, " ") // Output contained value.
+        return true                // Continue visiting next nodes.
+    })
+    fmt.Println()
 
-	n := root.Next.Next                     // Point at the node containing string "brown"
-	fmt.Println("root.Next.Next:", n.Value) // Output it
-	n.Delete()                              // Remove from the chain
+    n := root.Next.Next                     // Point at the node containing string "brown"
+    fmt.Println("root.Next.Next:", n.Value) // Output it
+    n.Delete()                              // Remove from the chain
 
-	n = root.Next.Next                                               // Now points at "fox" since "brown" is gone
-	fmt.Println("root.Next.Next after removal of 'brown':", n.Value) // Output it
+    n = root.Next.Next                                               // Now points at "fox" since "brown" is gone
+    fmt.Println("root.Next.Next after removal of 'brown':", n.Value) // Output it
 
-	// Visit all nodes, starting from the tail.
-	fmt.Println("Nodes in reverse order:")
-	root.Tail().VisitByPrev(func(node *lnode.Node[string]) bool {
-		fmt.Print(node.Value, " ")
-		return true
-	})
-	fmt.Println()
+    // Visit all nodes, starting from the tail.
+    fmt.Println("Nodes in reverse order:")
+    root.Tail().VisitByPrev(func(node *lnode.Node[string]) bool {
+        fmt.Print(node.Value, " ")
+        return true
+    })
+    fmt.Println()
 
-	/*
-		 Output:
-		 	Nodes in order:
-			the quick brown fox jumps over the lazy dog
-			root.Next.Next: brown
-			root.Next.Next after removal of 'brown': fox
-			Nodes in reverse order:
-			dog lazy the over jumps fox quick the
-	*/
+    /*
+         Output:
+         	Nodes in order:
+            the quick brown fox jumps over the lazy dog
+            root.Next.Next: brown
+            root.Next.Next after removal of 'brown': fox
+            Nodes in reverse order:
+            dog lazy the over jumps fox quick the
+    */
 }
 ```
 
@@ -70,4 +70,4 @@ The list is extended using `Append()` or `Prepend`(), which insert a node resp. 
 Finally there are some trivial helpers:
 
 - `VisitByNext()` or `VisitByPrev()` "walk" the list and invoke a callback.
-- 'Head()` and `Tail()` return the first, cq. last node in a chain.
+- `Head()` and `Tail()` return the first, cq. last node in a chain.
