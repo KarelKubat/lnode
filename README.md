@@ -3,6 +3,8 @@
 Package `lnode` provides generics for nodes in a doubly linked list.
 
 <!-- toc -->
+- [Synopsis](#synopsis)
+- [Description](#description)
 <!-- /toc -->
 
 ## Synopsis
