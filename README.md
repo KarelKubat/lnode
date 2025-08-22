@@ -24,8 +24,7 @@ func main() {
     // Initialize a linked list.
     for _, s := range []string{
     		"the", "quick", "brown", "fox",
-     		"jumps", "over", "the",
-       	"lazy", "dog"} {
+     		"jumps", "over", "the", "lazy", "dog"} {
         n := lnode.New[string](s)
         if root == nil {
             root = n
