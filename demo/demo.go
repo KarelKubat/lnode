@@ -51,4 +51,19 @@ func main() {
 			Nodes in reverse order:
 			dog lazy the over jumps fox quick the
 	*/
+
+	// Make this a circular chain
+	hd := root.Head()
+	tl := root.Tail()
+	hd.Prev = tl
+	tl.Next = hd
+	fmt.Println("Is root now a circular chain:", root.Circular())
+
+	// In a circular chain, VisitBy* will stop once every node has been seen
+	hd.VisitByNext(func(node *lnode.Node[string]) bool {
+		fmt.Print(node.Value, " ")
+		return true
+	})
+	fmt.Println()
+
 }

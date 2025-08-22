@@ -110,3 +110,31 @@ func TestDelete(t *testing.T) {
 		t.Errorf("TestDelete: anchor.Tail().Next in %v is not nil", anchor.Tail())
 	}
 }
+
+func TestVisitedAndHeadTail(t *testing.T) {
+	anchor := New[int](0)
+	anchor.Append(New[int](1))
+	anchor.Next.Append(New[int](2))
+	anchor.Next.Next.Append(New[int](3))
+	if got := anchor.Circular(); got != false {
+		t.Errorf("Before closing the loop: anchor.Circular() returned true")
+	}
+	if hd := anchor.Head(); hd != anchor {
+		t.Errorf("Before closing the loop: anchor.Head() = %v, want %v", hd, anchor)
+	}
+	if tl := anchor.Tail(); tl != anchor.Next.Next.Next {
+		t.Errorf("Before closing the loop: anchor.Head() = %v, want %v", tl, anchor.Next.Next.Next)
+	}
+
+	anchor.Next.Next.Next.Next = anchor
+	anchor.Prev = anchor.Next.Next.Next
+	if got := anchor.Circular(); got != true {
+		t.Errorf("After closing the loop: anchor.Circular() returned false")
+	}
+	if hd := anchor.Head(); hd != nil {
+		t.Errorf("Before closing the loop: anchor.Head() = %v, want nil", hd)
+	}
+	if tl := anchor.Tail(); tl != nil {
+		t.Errorf("Before closing the loop: anchor.Head() = %v, want nil", tl)
+	}
+}
