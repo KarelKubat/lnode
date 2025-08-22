@@ -22,7 +22,10 @@ func main() {
     var root *lnode.Node[string]
 
     // Initialize a linked list.
-    for _, s := range []string{"the", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"} {
+    for _, s := range []string{
+    		"the", "quick", "brown", "fox",
+     		"jumps", "over", "the",
+       	"lazy", "dog"} {
         n := lnode.New[string](s)
         if root == nil {
             root = n
@@ -39,12 +42,11 @@ func main() {
     })
     fmt.Println()
 
-    n := root.Next.Next                     // Point at the node containing string "brown"
-    fmt.Println("root.Next.Next:", n.Value) // Output it
-    n.Delete()                              // Remove from the chain
+    n := root.Next.Next  // Point at the node containing string "brown"
+    n.Delete()           // Remove from the chain
 
-    n = root.Next.Next                                               // Now points at "fox" since "brown" is gone
-    fmt.Println("root.Next.Next after removal of 'brown':", n.Value) // Output it
+    n = root.Next.Next   // Repoint, now points at "fox"
+    fmt.Println("root.Next.Next after removal of 'brown':", n.Value)
 
     // Visit all nodes, starting from the tail.
     fmt.Println("Nodes in reverse order:")
