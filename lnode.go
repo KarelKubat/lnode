@@ -62,7 +62,7 @@ VisitByNext invokes a visitor function (callback) on the applicable node, and on
 
 In the case of a circular chain (see function Circular()), VisitByNext() will stop before visiting a previously seen node.
 
-Example:
+Examples:
 
 	anchor := lnode.New[int](0)
 	anchor.Append(New[int](1))
@@ -72,6 +72,7 @@ Example:
 	// 0 --- 1 --- 2 --- 3
 	// ^anchor
 
+	// Visit all nodes
 	anchor.VisitByNext(func (node *Node[int])bool {
 	  fmt.Println(node.V)
 	  return true
@@ -82,6 +83,7 @@ Example:
 	// 2
 	// 3
 
+	// Visit nodes but stop on some condition
 	anchor.VisitByNext(func (node *Node[int])bool {
 	  fmt.Println(node.V)
 	  return node.V < 2
@@ -89,8 +91,21 @@ Example:
 	// output:
 	// 0
 	// 1
+
+This is analogous to the following code snippet, except that VisitByNext doesn't revisit seen nodes in circular chains.
+
+	for node := anchor; node != nil; node = node.Next {
+		fmt.Println(node.V)
+		if node.V >= 2 {
+			break
+		}
+	}
 */
 func (n *Node[V]) VisitByNext(fn func(node *Node[V]) bool) {
+	if n == nil {
+		return
+	}
+
 	start := n
 	for n != nil {
 		if !fn(n) {
@@ -129,6 +144,10 @@ Example:
 	// -3
 */
 func (n *Node[V]) VisitByPrev(fn func(node *Node[V]) bool) {
+	if n == nil {
+		return
+	}
+
 	start := n
 	for n != nil {
 		if !fn(n) {
@@ -160,6 +179,9 @@ Example:
 	// Output: -3
 */
 func (n *Node[V]) Head() *Node[V] {
+	if n == nil {
+		return nil
+	}
 	start := n
 	for n.Prev != nil {
 		n = n.Prev
@@ -189,6 +211,9 @@ Example:
 	// Output: 3
 */
 func (n *Node[V]) Tail() *Node[V] {
+	if n == nil {
+		return nil
+	}
 	start := n
 	for n.Next != nil {
 		n = n.Next
