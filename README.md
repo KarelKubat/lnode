@@ -1,6 +1,8 @@
 # lnode
 
-Package `lnode` provides generics for nodes in a doubly linked list.
+Package `lnode` provides generics for nodes joined in a doubly linked list.
+
+**Package `lnode` is not thread-safe. The caller must ensure that concurrent updates to nodes (e.g., `lnode.Append()` calls hitting the same node) are mutex-protected.**
 
 <!-- toc -->
 - [Synopsis](#synopsis)
@@ -8,6 +10,8 @@ Package `lnode` provides generics for nodes in a doubly linked list.
 <!-- /toc -->
 
 ## Synopsis
+
+Not all methods are shown in this listing.
 
 ```go
 package main
@@ -79,5 +83,3 @@ Finally there are some trivial helpers:
 - `VisitByNext()` or `VisitByPrev()` "walk" the list and invoke a callback.
 - `Head()` and `Tail()` return the first, cq. last node in a chain. These iterate from the indicated node, so that they run on O(N) time.
 - `Circular()` returns `true` when nodes are arranged in a circular chain (in which case, `Head()` and `Tail()` will return `nil`). This function runs in O(N) time.
-
-*Package `lnode` is not thread-safe. The caller must ensure that concurrent updates to nodes (e.g., `lnode.Append()` calls hitting the same node) are mutex-protected.*
